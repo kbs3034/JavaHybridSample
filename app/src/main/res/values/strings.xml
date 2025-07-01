@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">JavaHybridSample</string>
+    <string name="location_permission_comment">위치정보 수집 동의가 필요합니다.
+    </string>
+</resources>

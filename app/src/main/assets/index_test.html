@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	<title>Hello! Mobile!!</title>
+</head>
+
+<body>
+	<h1>Hello! Mobile!!@@@@</h1>
+	<button id="btnTestBridge">브릿지 테스트</button><br/><br/>
+	<button id="btnBuildType">빌드 타입</button><br/><br/>
+	<button id="btnAppversion">앱버전</button><br/><br/>
+	<button id="btnClipBoard">클립보드 테스트</button><br/>
+	<input type="text" placeholder="클립보드 테스트 확인"><br/><br/>
+	<button id="btnRestart">재시작 테스트</button><br/><br/>
+</body>
+
+<script type="text/javascript" src="../js/mcore.min.js"></script>
+<script type="text/javascript">
+var isJsonString = function(str) {
+  try {
+    var json = JSON.parse(str);
+    return (typeof json === 'object');
+  } catch (e) {
+    return false;
+  }
+}
+
+var NativeCall = function (functionStr, param, callback) {
+	var _function = functionStr.split(".");
+
+	var group = _function[0];
+	var functionKey = _function[1];
+
+	if(!!!param) param = new Object();
+
+	param["group"] = group;
+	param["functionKey"] = functionKey;
+
+	var result = androidWebBridge.NativeCall(JSON.stringify(param));
+
+	result = (isJsonString(result)) ? JSON.parse(result) : result;
+	return result;
+}
+
+var bridgeTestCallback = function(res) {
+    var result = JSON.parse(res);
+    console.log(result);
+    alert(JSON.stringify(result));
+}
+
+document.getElementById('btnTestBridge').onclick = function(event){
+		NativeCall("nativeSystem.bridgeTest", {'callback':'bridgeTestCallback'});
+    }
+
+	document.getElementById('btnBuildType').onclick = function(event){
+		var buildType = NativeCall("nativeSystem.buildType");
+		alert(buildType);
+    }
+
+    document.getElementById('btnAppversion').onclick = function(event){
+		var appVersion = NativeCall("nativeSystem.getAppVersionName");
+		alert(appVersion);
+    }
+
+    document.getElementById('btnClipBoard').onclick = function(event){
+    	NativeCall("nativeSystem.copyClipboard", {'data' : {'copyStr':'clipBoard copy test!!'}});
+    }
+
+    document.getElementById('btnRestart').onclick = function(event){
+    	NativeCall("nativeSystem.restart");
+    }
+
+</script>
+
+</html>

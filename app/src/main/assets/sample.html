@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	<title>Hello! Mobile!!</title>
+</head>
+
+<body>
+	<h1>브릿지 테스트 페이지</h1>
+	<button id="btnTestBridge">브릿지 테스트</button><br/><br/>
+	<button id="btnAppversion">앱버전</button><br/><br/>
+	<button id="showToast">토스트</button><br/><br/>
+</body>
+
+<script type="text/javascript">
+window.onload = function(e) {
+  document.getElementById('btnTestBridge').onclick = function(event){
+           nativeCall("sample.test",{"msg" : "test"}, 'bridgeTestCallback');
+    }
+
+	document.getElementById('showToast').onclick = function(event){
+           nativeCall('nativeSystem.showToast',{"message" : "토스트 브릿지 테스트"});
+    }
+
+    document.getElementById('btnAppversion').onclick = function(event){
+           var appVersion = nativeCall('nativeSystem.appVersion');
+           alert(appVersion);
+    }
+}
+
+var bridgeTestCallback = function(res) {
+    var result = JSON.parse(res);
+    console.log(result);
+    alert(result.msg);
+}
+
+var nativeCall = function(bridgeInfo, param, callback){
+	var bridgeInfoArr = bridgeInfo.split(".");
+
+	if (!!!param) param = new Object();
+
+	var bridgeParam = { 'group' : bridgeInfoArr[0],
+    'function' : bridgeInfoArr[1],
+    'callback' : callback,
+    'args' : param }
+
+	return androidWebBridge.postMessage(JSON.stringify(bridgeParam));
+}
+
+
+</script>
+
+</html>
