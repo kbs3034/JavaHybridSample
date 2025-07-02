@@ -15,7 +15,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-
+/**
+ * 바텀시트 다이얼로그의 공통 기능을 묶어놓은 베이스 클래스입니다.
+ * 작성자: banseogg
+ */
 public class BaseBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
     /**

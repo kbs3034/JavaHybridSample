@@ -12,7 +12,10 @@ import com.example.javahybridsample.web.WebBridge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * 샘플 웹뷰를 띄우고 브릿지를 연결하는 액티비티입니다.
+ * 작성자: banseogg
+ */
 public class SampleWebviewActivity extends BaseActivity {
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 

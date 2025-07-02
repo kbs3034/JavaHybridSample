@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
+/**
+ * 애플리케이션 전역 초기화를 담당하는 클래스입니다.
+ * 작성자: banseogg
+ */
 public class App extends Application {
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 

@@ -8,6 +8,7 @@ import pl.brightinventions.slf4android.LoggerConfiguration;
 
 /**
  * 로그 설정을 초기화하는 기능을 제공합니다.
+ * 작성자: banseogg
  */
 public class LogInitializer {
     /**

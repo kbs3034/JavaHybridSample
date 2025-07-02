@@ -23,6 +23,11 @@ import org.slf4j.LoggerFactory;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * 웹에서 네이티브 기능을 호출하기 위한 브릿지 진입점 클래스입니다.
+ * WebView에 노출되는 {@link #NativeCall(String)} 메서드를 통해 사용합니다.
+ * @author banseogg
+ */
 public class WebBridge {
     final String TAG = this.getClass().getSimpleName();
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -34,14 +39,16 @@ public class WebBridge {
     //ScriptCallback
     private RunCallbackScript callback;
 
-    //bridge
+    //bridge list
     private NativeSystem nativeSystem;
 
     public WebBridge (WebView webView, BaseActivity callerObject) {
         this.webView = webView;
         this.callerObject = callerObject;
 
-        //callback
+        // 자바스크립트로 결과를 전달할 공통 콜백 구현
+        // 브릿지 별로 별도의 콜백이 구현될 수 있으며,
+        // 브릿지 생성자 인자로 콜백함수를 넘겨주지 않으면 브리지 자체에 정의된 콜백함수가 실행된다.
         this.callback = new RunCallbackScript() {
             @Override
             public void runCallbackScript(String callback, String resultCode, String msg, Object returnValue) {
@@ -52,14 +59,13 @@ public class WebBridge {
                             String callbackString = callback;
                             JSONObject response = new JSONObject();
                             response.put("status",new JSONObject("{\"code\":\""+resultCode+"\",\"msg\":\""+msg+"\"}"));
-                            response.put("data",returnValue == null ? new JSONObject() : returnValue);
+                            response.put("data", returnValue == null ? "" : returnValue);
 
                             Log.d(TAG , "콜백으로 보내는 것 >" + response);
                             if(BuildConfig.DEBUG && TextUtils.isEmpty(callbackString)) callbackString = "alert";
-                            String script="javascript:("+ callbackString +"('%s'))";
+                            String script = callbackString +"('%s')";
 
-                            //백슬래쉬 하나씩 줄어들어서 화면에서 에러 발생. 나중에 다른 방법 찾아보면 좋을 듯
-                            webView.loadUrl(String.format(script, response.toString().replace("\\","\\\\")));
+                            webView.evaluateJavascript(String.format(script, response), null);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -78,7 +84,6 @@ public class WebBridge {
     }
 
     public static final String DEFAULT_WEB_BRIDGE_NAME = "androidWebBridge";
-
 
     /**
      * 웹에서 네이티브 기능을 호출하기 위한 브릿지 공통부
@@ -118,6 +123,7 @@ public class WebBridge {
 
             BaseNativeBridge bridge = null;
 
+            // 그룹명에 따라 실제 브릿지 객체 선택
             switch(group) {
                 case "nativeSystem" : bridge = nativeSystem; break;
                 default: {
@@ -125,8 +131,8 @@ public class WebBridge {
                         callerObject.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                String script="javascript:console.log('%s')";
-                                webView.loadUrl(String.format(script,  group +"."+functionKey+"은(는) 미개발된 기능 입니다. 네이티브 담당자 확인이 필요합니다."));
+                                String script="console.log('%s')";
+                                webView.evaluateJavascript(String.format(script,  group +"."+functionKey+"은(는) 미개발된 기능 입니다. 네이티브 담당자 확인이 필요합니다."), null);
                             }
                         });
                     }
@@ -141,13 +147,13 @@ public class WebBridge {
                 callerObject.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        String script="javascript:console.log('%s')";
+                        String script="console.log('%s')";
 
                         StringWriter sw = new StringWriter();
                         e.printStackTrace(new PrintWriter(sw));
                         String exceptionAsString = sw.toString();
 
-                        webView.loadUrl(String.format(script, exceptionAsString ));
+                        webView.evaluateJavascript(String.format(script, exceptionAsString ), null);
                     }
                 });
             }

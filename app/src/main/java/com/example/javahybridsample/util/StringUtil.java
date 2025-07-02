@@ -14,7 +14,8 @@ import java.util.HashMap;
 
 
 /**
- * StringUtil String 이 Null 인지 아닌지 체크한다.
+ * 문자열 처리를 위한 유틸 메서드를 모아놓은 클래스입니다.
+ * 작성자: banseogg
  */
 @SuppressWarnings("unused, WeakerAccess")
 public class StringUtil {

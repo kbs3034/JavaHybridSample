@@ -7,16 +7,15 @@
 </head>
 
 <body>
-	<h1>Hello! Mobile!!@@@@</h1>
-	<button id="btnTestBridge">브릿지 테스트</button><br/><br/>
-	<button id="btnBuildType">빌드 타입</button><br/><br/>
-	<button id="btnAppversion">앱버전</button><br/><br/>
-	<button id="btnClipBoard">클립보드 테스트</button><br/>
-	<input type="text" placeholder="클립보드 테스트 확인"><br/><br/>
-	<button id="btnRestart">재시작 테스트</button><br/><br/>
+<h1>Hello! Mobile!!@@@@</h1>
+<button id="btnTestBridge">브릿지 테스트</button><br/><br/>
+<button id="btnBuildType">빌드 타입</button><br/><br/>
+<button id="btnAppversion">앱버전</button><br/><br/>
+<button id="btnClipBoard">클립보드 테스트</button><br/>
+<input type="text" id="ipClipBoard" placeholder="클립보드 테스트 확인"><br/><br/>
+<button id="btnRestart">재시작 테스트</button><br/><br/>
 </body>
 
-<script type="text/javascript" src="../js/mcore.min.js"></script>
 <script type="text/javascript">
 var isJsonString = function(str) {
   try {
@@ -32,11 +31,34 @@ var NativeCall = function (functionStr, param, callback) {
 
 	var group = _function[0];
 	var functionKey = _function[1];
+	var _callback = callback;
 
 	if(!!!param) param = new Object();
 
 	param["group"] = group;
 	param["functionKey"] = functionKey;
+
+	if(typeof _callback == 'string') {
+		_callback = window[callback];
+		if(!callback) return alert(callback+' 은 전역 변수로 존재하지 않는 함수 입니다.');
+	}
+
+	if (typeof _callback == 'function') {
+		var callbackStr = '__BRIDGE__CALLBACK__' + Date.now();
+
+		window[callbackStr] = function (result) {
+			result = (isJsonString(result)) ? JSON.parse(result) : result;
+			if(result.status.code == '0') {
+				_callback(result.data);
+			} else {
+				alert(result.status.msg);
+			}
+
+			delete window[callbackStr];
+		};
+
+		param.callback = callbackStr;
+	}
 
 	var result = androidWebBridge.NativeCall(JSON.stringify(param));
 
@@ -45,13 +67,13 @@ var NativeCall = function (functionStr, param, callback) {
 }
 
 var bridgeTestCallback = function(res) {
-    var result = JSON.parse(res);
-    console.log(result);
-    alert(JSON.stringify(result));
+
+    console.log(res);
+    alert(res.msg);
 }
 
 document.getElementById('btnTestBridge').onclick = function(event){
-		NativeCall("nativeSystem.bridgeTest", {'callback':'bridgeTestCallback'});
+		NativeCall("nativeSystem.bridgeTest", {}, 'bridgeTestCallback');
     }
 
 	document.getElementById('btnBuildType').onclick = function(event){
@@ -65,7 +87,9 @@ document.getElementById('btnTestBridge').onclick = function(event){
     }
 
     document.getElementById('btnClipBoard').onclick = function(event){
-    	NativeCall("nativeSystem.copyClipboard", {'data' : {'copyStr':'clipBoard copy test!!'}});
+    	NativeCall("nativeSystem.copyClipboard", {'data' : {'copyStr':'clipBoard copy test!!'}}, function(result){
+			document.getElementById("ipClipBoard").value = result.str;
+    	});
     }
 
     document.getElementById('btnRestart').onclick = function(event){

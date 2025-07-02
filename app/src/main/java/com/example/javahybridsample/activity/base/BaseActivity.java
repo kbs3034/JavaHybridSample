@@ -24,6 +24,7 @@ import io.reactivex.disposables.Disposable;
 /**
  *
  * BaseActivity Class
+ * 작성자: banseogg
  * compositeDisposable - 푸시, 다이나믹링크를 통해 앱 진입시, PushData, DynamicData 등 RXbus subscribe 를 발생시키고,
  * 업무에 맞는 비즈니스로직을 수행하며, 액티비티 종료시 한번에 dispose된다.
  * disposableMap - 푸시, 다이나믹링크를 제외한 일회성 콜백함수를 담아 놓는 맵이다.

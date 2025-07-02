@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * 여러 리소스 목록을 표현하는 샘플 모델입니다.
+ * 작성자: banseogg
+ */
 public class SampleMultipleResource {
     @SerializedName("page")
     public Integer page;

@@ -12,6 +12,11 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
+/**
+ * 샘플 API 호출을 정의한 인터페이스입니다.
+ * Retrofit이 이 인터페이스를 구현하여 통신을 수행합니다.
+ * 작성자: banseogg
+ */
 public interface APIInterface {
     /**
      * Sample

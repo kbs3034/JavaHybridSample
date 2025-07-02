@@ -24,6 +24,13 @@ public abstract class BaseNativeBridge {
         this.callback = callback;
     }
 
+    public BaseNativeBridge(BaseActivity callerObject, WebView webView){
+        final String TAG = this.getClass().getSimpleName();
+        //브릿지 콜백함수
+        this.callerObject = callerObject;
+        this.webView = webView;
+    }
+
     public abstract Object exec(String functionKey, JSONObject param) throws JSONException;
 
     protected boolean validateParam(JSONObject param, String[] fields, String callBackString) {

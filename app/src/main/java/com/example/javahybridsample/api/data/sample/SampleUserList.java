@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 샘플 사용자 목록 응답을 담는 모델입니다.
+ * 작성자: banseogg
+ */
 public class SampleUserList {
     @SerializedName("page")
     public Integer page;

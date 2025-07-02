@@ -14,7 +14,10 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * REST API 샘플 호출과 웹뷰 화면으로 이동하는 샘플 액티비티입니다.
+ * 작성자: banseogg
+ */
 public class SampleActivity extends AppCompatActivity {
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 

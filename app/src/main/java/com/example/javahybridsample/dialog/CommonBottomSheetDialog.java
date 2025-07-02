@@ -11,6 +11,10 @@ import androidx.annotation.Nullable;
 import com.example.javahybridsample.databinding.BottomSheetCommonBinding;
 import com.example.javahybridsample.util.StringUtil;
 
+/**
+ * 공통으로 사용하는 바텀시트 다이얼로그입니다.
+ * 작성자: banseogg
+ */
 public class CommonBottomSheetDialog extends BaseBottomSheetDialogFragment {
 
     private BottomSheetOption bottomSheetOption;

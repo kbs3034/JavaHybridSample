@@ -23,7 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
-
+/**
+ * 권한 체크 후 이동하는 인트로 액티비티입니다.
+ * 작성자: banseogg
+ */
 public class IntroActivity extends AppCompatActivity {
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -57,8 +60,6 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     /**
      * 앱 필요한 권한을 체크하고 요청한다.

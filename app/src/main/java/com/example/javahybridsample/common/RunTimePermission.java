@@ -7,7 +7,10 @@ import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-
+/**
+ * 런타임 권한 요청을 돕는 헬퍼 클래스입니다.
+ * 작성자: banseogg
+ */
 public class RunTimePermission
 { 
 	private static RunTimePermission m_Instance;

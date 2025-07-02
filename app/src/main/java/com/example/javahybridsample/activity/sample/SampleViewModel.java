@@ -21,6 +21,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 샘플 API 호출을 처리하는 ViewModel 입니다.
+ * 작성자: banseogg
+ */
 public class SampleViewModel extends ViewModel {
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 

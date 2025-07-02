@@ -2,7 +2,10 @@ package com.example.javahybridsample.rxbus;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-
+/**
+ * 앱 전역 이벤트 전달을 위한 RxJava 버스입니다.
+ * 작성자: banseogg
+ */
 public final class RxBus {
     private static volatile RxBus instance;
 
