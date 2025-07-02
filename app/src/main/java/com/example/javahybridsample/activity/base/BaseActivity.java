@@ -78,8 +78,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		webView.removeAllViews();
-		webView.destroy();
+		if(webView != null) {
+			webView.removeAllViews();
+			webView.destroy();
+		}
 
 		while(receiverList.size() > 0) {
 			unregisterReceiver(receiverList.get(0));

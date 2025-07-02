@@ -10,7 +10,11 @@ import com.example.javahybridsample.activity.base.BaseActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+/**
+ * 모든 네이티브 브릿지의 기본이 되는 추상 클래스입니다.
+ * 각 브릿지는 이 클래스를 상속하여 실제 기능을 구현합니다.
+ * 작성자: banseogg
+ */
 public abstract class BaseNativeBridge {
     public BaseActivity callerObject;
     public WebView webView;
@@ -24,15 +28,9 @@ public abstract class BaseNativeBridge {
         this.callback = callback;
     }
 
-    public BaseNativeBridge(BaseActivity callerObject, WebView webView){
-        final String TAG = this.getClass().getSimpleName();
-        //브릿지 콜백함수
-        this.callerObject = callerObject;
-        this.webView = webView;
-    }
-
     public abstract Object exec(String functionKey, JSONObject param) throws JSONException;
 
+    // 파라미터 필수값 체크 유틸
     protected boolean validateParam(JSONObject param, String[] fields, String callBackString) {
         boolean result = true;
         String emptyField = "";
